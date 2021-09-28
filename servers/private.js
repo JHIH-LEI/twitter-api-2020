@@ -47,7 +47,7 @@ module.exports = (io, socket, loginUser) => {
           receiverId: loginUser.id
         }
       })
-
+      // TODO:待刪除，已改成API
       //傳入歷史訊息
       const messages = await Message.findAll({
         raw: true, nest: true,
@@ -73,6 +73,9 @@ module.exports = (io, socket, loginUser) => {
       socket.on('private message', async message => {
         try {
           await updateMessage(io, message, loginUser, room.id, targetUserId)
+          // TODO: 待刪除，已改成api。等前端串接
+          // 推送最新的聊天列表
+          await emitChatList(io, loginUser)
         } catch (err) {
           console.warn(err)
         }
