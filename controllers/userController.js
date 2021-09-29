@@ -2,10 +2,10 @@ const userService = require('../services/userService')
 
 const userController = {
   signUp: (req, res) => {
-    userService.signUp(req, res, (data) => res.status(data.status).json(data))
+    userService.signUp(req.body, (data) => res.status(data.status).json(data))
   },
   login: (req, res) => {
-    userService.login(req, res, (data) => res.status(data.status).json(data))
+    userService.login(req.body, (data) => res.status(data.status).json(data))
   },
   getUser: (req, res) => {
     userService.getUser(req, res, data => res.status(data.status).json(data))
@@ -45,6 +45,12 @@ const userController = {
   },
   getChatList: (req, res) => {
     userService.getChatList(req, res, data => {
+      if (data.status) return res.status(data.status).json(data)
+      return res.json(data)
+    })
+  },
+  getNotifications: (req, res) => {
+    userService.getNotifications(req, res, data => {
       if (data.status) return res.status(data.status).json(data)
       return res.json(data)
     })
