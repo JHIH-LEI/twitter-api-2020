@@ -2,16 +2,17 @@ const sequelize = require('sequelize')
 const { User, Tweet, Reply, Like } = require('../models')
 
 const adminService = {
-  getTweets: (req, res, cb) => {
-    Tweet.findAll({ include: { model: User }, raw: true, nest: true, order: [['createdAt', 'DESC']] })
-      .then(tweets => {
-        tweets = tweets.map(tweet => ({
+  getTweets: async (req, res, cb) => {
+    try {
+      let tweets = await findAll({ include: { model: User }, raw: true, nest: true, order: [['createdAt', 'DESC']] })
+      tweets = tweets.map(tweet => ({
           ...tweet,
           description: tweet.description.substring(0, 50)
         }))
-        return cb({ tweets, status: '200' })
-      })
-      .catch(error => res.status(422).json(error))
+      return cb({ tweets, status: '200' })
+    } catch(error) {
+      res.status(422).json(error)
+    }
   },
   removeTweet: (req, res, cb) => {
     TweetId = req.params.id
