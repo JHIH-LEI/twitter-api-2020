@@ -2,7 +2,7 @@
 *.DS_Store
 *vscode
 # image uploads
-/uploads
+**/uploads
 # Logs
 logs
 *.log
