@@ -1,0 +1,127 @@
+version: "3.8"
+
+services:
+  sqldb:
+    image: mysql:8.0
+    restart: always
+    hostname: sqldb
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      # 你現在執行位置同目錄底下應有.env檔案
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_ROOT_USER: $MYSQL_ROOT_USER
+      MYSQL_DATABASE: sqldb
+    container_name: sqldb
+    ports:
+      - "3307:3306"
+    networks:
+      - mysql-net
+    volumes:
+      - /etc/mysql/conf.d:/etc/mysql/conf.d
+      # 避免因為container關閉而流失資料
+      - db:/var/lib/mysql
+  user_backend:
+    # 只能確保在sqlbd running後執行，不能保證會等待sqldb建好
+    depends_on:
+      - sqldb
+    container_name: user_backend
+    # 必須指定env檔案，否則node程式吃不到
+    env_file:
+      - ./.env
+    build:
+      # 因為需要取用dockerfile以外的資料，所以需要手動拓展context
+      context: .
+      dockerfile: ./servers/user/Dockerfile
+    networks:
+      - mysql-net
+    ports:
+      - 5006:3000
+      # 確保資料庫建完才執行伺服器
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  tweet_backend:
+    container_name: tweet_backend
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./servers/tweet/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5000:3000
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  admin_backend:
+    container_name: admin_backend
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./servers/admin/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5001:3000
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  followship_backend:
+    container_name: followship_backend
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./servers/followship/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5002:3000
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  message_backend:
+    container_name: message_backend
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./servers/message/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5003:3000
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  socket_backend:
+    container_name: socket_backend
+    build:
+      context: .
+      dockerfile: ./servers/socket/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5004:3000
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+  subscribeship_backend:
+    container_name: subscribeship_backend
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./servers/subscribeship/Dockerfile
+    depends_on:
+      - sqldb
+    networks:
+      - mysql-net
+    ports:
+      - 5005:3000
+
+volumes:
+  db: {}
+networks:
+  mysql-net:
+    name: mysql-net

@@ -5,9 +5,6 @@
     "database": "ac_twitter_workspace",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "dialectOptions": {
-      "userUTC": "false"
-    },
     "timezone": "+08:00"
   },
   "test": {
@@ -17,16 +14,10 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
-    "dialectOptions": {
-      "userUTC": "false"
-    },
     "timezone": "+08:00"
   },
   "production": {
     "use_env_variable": "CLEARDB_DATABASE_URL",
-    "dialectOptions": {
-      "userUTC": "false"
-    },
     "timezone": "+08:00"
   },
   "travis": {
@@ -35,5 +26,13 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false
+  },
+  "docker": {
+    "username": "root",
+    "password": "password",
+    "database": "sqldb",
+    "port": "3306",
+    "dialect": "mysql",
+    "host": "sqldb"
   }
 }
