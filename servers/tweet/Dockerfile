@@ -18,7 +18,13 @@ COPY ./config ./config
 
 COPY ./models ./models
 
+COPY ./tools ./tools
+
 COPY ./wait-for-it.sh .
+
+COPY ./middlewares ./middlewares
+
+COPY ./_helpers.js .
 
 # 讓wait-for-it.sh變得可執行
 

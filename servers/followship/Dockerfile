@@ -11,7 +11,7 @@ ENV NODE_ENV docker
 
 # context is same as docker-compose.yaml
 
-COPY ./servers/followship /app
+COPY ./servers/followship .
 
 COPY ./migrations ./migrations
 

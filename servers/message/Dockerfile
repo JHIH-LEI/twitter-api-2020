@@ -13,6 +13,8 @@ COPY ./servers/message .
 
 COPY ./migrations ./migrations
 
+COPY ./middlewares ./middlewares
+
 # for model use
 COPY ./config ./config
 
