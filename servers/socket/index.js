@@ -11,7 +11,10 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const db = require("../../models");
+const db =
+  process.env.NODE_ENV == "docker"
+    ? require("./models")
+    : require("../../models");
 const { Op } = require("sequelize");
 const { Message, RoomUser } = db;
 const {

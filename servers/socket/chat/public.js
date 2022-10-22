@@ -1,6 +1,6 @@
 const db =
-  process.env.NODE_ENV === "docker"
-    ? require("../../models")
+  process.env.NODE_ENV == "docker"
+    ? require("../models")
     : require("../../../models");
 const { User, Message, RoomUser } = db;
 const {

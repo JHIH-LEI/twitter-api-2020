@@ -1,8 +1,7 @@
 const db =
-  process.env.NODE_ENV === "docker"
+  process.env.NODE_ENV == "docker"
     ? require("../models")
     : require("../../../models");
-
 const sequelize = require("sequelize");
 const { RoomUser, User, Subscribeship, Notification, Room, Message } = db;
 

@@ -1,7 +1,13 @@
 const { Op } = require("sequelize");
-const db = require("../../../models");
+const db =
+  process.env.NODE_ENV == "docker"
+    ? require("../models")
+    : require("../../../models");
 const { Tweet, Reply, Like, User, sequelize } = db;
-const { turnToBoolean } = require("../../../tools/helper");
+const { turnToBoolean } =
+  process.env.NODE_ENV == "docker"
+    ? require("../tools/helper")
+    : require("../../../tools/helper");
 
 const tweetService = {
   postTweet: async (body, loginUser, cb) => {

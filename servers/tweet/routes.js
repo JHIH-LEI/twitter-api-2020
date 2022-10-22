@@ -4,7 +4,10 @@ const tweetController = require("./controllers/tweet");
 const replyController = require("./controllers/reply");
 const likeController = require("./controllers/like");
 
-const { authenticated, authenticatedUser } = require("../../middlewares/auth");
+const { authenticated, authenticatedUser } =
+  process.env.NODE_ENV == "docker"
+    ? require("./middlewares/auth")
+    : require("../../middlewares/auth");
 
 router.post("/:tweet_id/replies", tweetController.postReply);
 router.post("/:id/like", likeController.likeTweet);

@@ -1,6 +1,6 @@
 const db =
   process.env.NODE_ENV == "docker"
-    ? require("../models")
+    ? require("./models")
     : require("../../models");
 
 const { Notification, Subscribeship, Tweet, User, Reply, Followship, Like } =

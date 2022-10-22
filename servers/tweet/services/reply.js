@@ -1,4 +1,7 @@
-const db = require("../../../models");
+const db =
+  process.env.NODE_ENV == "docker"
+    ? require("../models")
+    : require("../../../models");
 const User = db.User;
 const Reply = db.Reply;
 

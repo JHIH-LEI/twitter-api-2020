@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const adminController = require("./controller");
 
-const { authenticated, authenticatedAdmin } = (process.env.NODE_ENV = "docker"
-  ? require("./middlewares/auth")
-  : require("../../middlewares/auth"));
+const { authenticated, authenticatedAdmin } =
+  process.env.NODE_ENV == "docker"
+    ? require("./middlewares/auth")
+    : require("../../middlewares/auth");
 
 router.get("/tweets", adminController.getTweets);
 router.get("/users", adminController.getUsers);
