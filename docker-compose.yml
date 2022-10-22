@@ -37,7 +37,7 @@ services:
     ports:
       - 5006:3000
       # 確保資料庫建完才執行伺服器
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   tweet_backend:
     container_name: tweet_backend
     env_file:
@@ -51,7 +51,7 @@ services:
       - mysql-net
     ports:
       - 5000:3000
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   admin_backend:
     container_name: admin_backend
     env_file:
@@ -65,7 +65,7 @@ services:
       - mysql-net
     ports:
       - 5001:3000
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   followship_backend:
     container_name: followship_backend
     env_file:
@@ -79,7 +79,7 @@ services:
       - mysql-net
     ports:
       - 5002:3000
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   message_backend:
     container_name: message_backend
     env_file:
@@ -93,7 +93,7 @@ services:
       - mysql-net
     ports:
       - 5003:3000
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   socket_backend:
     container_name: socket_backend
     build:
@@ -105,7 +105,7 @@ services:
       - mysql-net
     ports:
       - 5004:3000
-    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate && node ./index.js'
+    command: sh -c './wait-for-it.sh --strict sqldb:3306 -- npx sequelize db:migrate --debug && node ./index.js'
   subscribeship_backend:
     container_name: subscribeship_backend
     env_file:
